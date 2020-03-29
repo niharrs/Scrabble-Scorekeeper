@@ -59,22 +59,23 @@ fn main () {
     scrabble_score.insert("Y".to_string(), 4);
     scrabble_score.insert("Z".to_string(), 10);
 
-    // for (letter,score) in &scrabble_score {
-    //     match scrabble_score.get(letter) {
-    //         Some(score) => println!("{:?} : {:?}", letter, score),
-    //         None => println!("{:?} is not mentioned.", letter)
-    //     }
-    // }
-
-    let word = "cat".to_string();
+    let mut word = String::new();
+    io::stdin().read_line(&mut word).expect("Failed to read the choice.");
 
     let mut score : i32;
+
+    let mut scoreboard: i32 = 0;
 
     for letter in word.chars() {
         let mut l = letter.to_string();
         let mut score = match scrabble_score.get(&l) {
-            Some(score) => println!("{:?} : {:?}", l, score),
+            Some(score) => {
+                println!("{:?} : {:?}", l, score);
+                scoreboard += score;
+            },
             None => println!("{:?} is not mentioned.", l)
         };
     }
+
+    println! ("SCORE = {}", scoreboard);
 }
