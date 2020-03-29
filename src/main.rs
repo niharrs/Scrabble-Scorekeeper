@@ -58,26 +58,44 @@ fn main () {
     scrabble_score.insert("Y".to_string(), 4);
     scrabble_score.insert("Z".to_string(), 10);
 
-    let mut scoreboard: i32 = 0;
-
+    let mut scoreboard_1: i32 = 0;
+    let mut scoreboard_2: i32 = 0;
 
     loop {
-        println! ("ENTER PLAYER WORD");
-        let mut word = String::new();
-        io::stdin().read_line(&mut word).expect("Failed to read the choice.");
+        println! ("ENTER PLAYER 1 WORD");
+        let mut word_1 = String::new();
+        io::stdin().read_line(&mut word_1).expect("Failed to read the choice.");
 
-        let mut score : i32;
+        let mut score_1 : i32;
 
-        for letter in word.chars() {
-            let l = letter.to_string();
-            let score = match scrabble_score.get(&l) {
-                Some(score) => {
-                    println!("{:?} : {:?}", l, score);
-                    scoreboard += score;
+        for letter_1 in word_1.chars() {
+            let l_1 = letter_1.to_string();
+            let score_1 = match scrabble_score.get(&l_1) {
+                Some(score_1) => {
+                    println!("{:?} : {:?}", l_1, score_1);
+                    scoreboard_1 += score_1;
                 },
-                None => println!("{:?} is not mentioned.", l)
+                None => println!("{:?} is not mentioned.", l_1)
             };
         }
-        println! ("PLAYER SCORE = {}", scoreboard);
+        println! ("PLAYER SCORE 1 = {}", scoreboard_1);
+
+        println! ("ENTER PLAYER 2 WORD");
+        let mut word_2= String::new();
+        io::stdin().read_line(&mut word_2).expect("Failed to read the choice.");
+
+        let mut score_2 : i32;
+
+        for letter_2 in word_2.chars() {
+            let l_2 = letter_2.to_string();
+            let score_2 = match scrabble_score.get(&l_2) {
+                Some(score_2) => {
+                    println!("{:?} : {:?}", l_2, score_2);
+                    scoreboard_2 += score_2;
+                },
+                None => println!("{:?} is not mentioned.", l_2)
+            };
+        }
+        println! ("PLAYER SCORE 2 = {}", scoreboard_2);
     }
 }
