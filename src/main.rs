@@ -13,34 +13,58 @@ fn main() {
         Err(_) => 0,
     };
 
-    let mut scores: Vec<i32> = Vec::new();
+    let mut player1_score: i32 = 0;
+    let mut player2_score: i32 = 0;
+    let mut player3_score: i32 = 0;
+    let mut player4_score: i32 = 0;
 
-    loop {
-        for x in 1..num_players + 1 {
-            println!("ENTER PLAYER {} WORD", x);
-            let mut word = String::new();
-            io::stdin()
-                .read_line(&mut word)
-                .expect("Failed to read the choice.");
+    if num_players < 5 {
+        loop {
+            for x in 1..num_players + 1 {
+                println!("ENTER PLAYER {} WORD", x);
+                let mut word = String::new();
+                io::stdin()
+                    .read_line(&mut word)
+                    .expect("Failed to read the choice.");
 
-            let score = calculate_word_score(word);
+                let score = calculate_word_score(word);
 
-            scores.push(score);
-
-            println!("{:?}", score);
+                if x == 1 {
+                    player1_score += score;
+                }
+                if x == 2 {
+                    player2_score += score;
+                }
+                if x == 3 {
+                    player3_score += score;
+                }
+                if x == 4 {
+                    player4_score += score;
+                }
+                println!("{:?}", score);
+            }
+            if num_players == 1 {
+                println!("Player 1 score: {}", player1_score);
+            }
+            if num_players == 2 {
+                println!("Player 1 score: {}", player1_score);
+                println!("Player 2 score: {}", player2_score);
+            }
+            if num_players == 3 {
+                println!("Player 1 score: {}", player1_score);
+                println!("Player 2 score: {}", player2_score);
+                println!("Player 3 score: {}", player3_score);
+            }
+            if num_players == 4 {
+                println!("Player 1 score: {}", player1_score);
+                println!("Player 2 score: {}", player2_score);
+                println!("Player 3 score: {}", player3_score);
+                println!("Player 4 score: {}", player4_score);
+            }
         }
-        calculate_player_score(num_players, &scores);
+    } else {
+        println!("Max number of players supported is 4.");
     }
-}
-
-fn calculate_player_score(player_no: i32, scores: &Vec<i32>) {
-    // If 1 player: calculate sum of the vector
-    if player_no == 1 {
-        let score : i32 = scores.iter().sum();
-        println!("{}", score);
-    }
-    // If 2 players [1, 3, 6, 7, 9, 5], player 2=> i%2 ==0, player1, i%2==1
-    // If 3 players [1, 9, 3, 2, 4, 6, 4, 5, 6], player 1 =>
 }
 
 fn calculate_word_score(word: String) -> i32 {
