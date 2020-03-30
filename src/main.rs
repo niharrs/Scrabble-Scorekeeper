@@ -29,15 +29,19 @@ fn main() {
 
             println!("{:?}", score);
         }
-        println!("{:#?}", scores);
+        calculate_player_score(num_players, &scores);
     }
 }
 
-// fn calculate_player_score(player_no: i32) -> i32 {
-//     // If 1 player: calculate sum of the vector
-//     // If 2 players [1, 3, 6, 7, 9, 5], player 2=> i%2 ==0, player1, i%2==1
-//     // If 3 players [1, 9, 3, 2, 4, 6, 4, 5, 6], player 1 =>
-// }
+fn calculate_player_score(player_no: i32, scores: &Vec<i32>) {
+    // If 1 player: calculate sum of the vector
+    if player_no == 1 {
+        let score : i32 = scores.iter().sum();
+        println!("{}", score);
+    }
+    // If 2 players [1, 3, 6, 7, 9, 5], player 2=> i%2 ==0, player1, i%2==1
+    // If 3 players [1, 9, 3, 2, 4, 6, 4, 5, 6], player 1 =>
+}
 
 fn calculate_word_score(word: String) -> i32 {
     let mut scrabble_score: HashMap<String, i32> = HashMap::new();
