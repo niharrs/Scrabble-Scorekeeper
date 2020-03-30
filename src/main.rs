@@ -1,7 +1,45 @@
-use std::io;
 use std::collections::HashMap;
+use std::io;
 
-fn main () {
+fn main() {
+    println!("ENTER NUMBER OF PLAYERS");
+    let mut players = String::new();
+    io::stdin()
+        .read_line(&mut players)
+        .expect("Failed to read the choice.");
+
+    let num_players: i32 = match players.trim().parse() {
+        Ok(num) => num,
+        Err(_) => 0,
+    };
+
+    let mut scores: Vec<i32> = Vec::new();
+
+    loop {
+        for x in 1..num_players + 1 {
+            println!("ENTER PLAYER {} WORD", x);
+            let mut word = String::new();
+            io::stdin()
+                .read_line(&mut word)
+                .expect("Failed to read the choice.");
+
+            let score = calculate_word_score(word);
+
+            scores.push(score);
+
+            println!("{:?}", score);
+        }
+        println!("{:#?}", scores);
+    }
+}
+
+// fn calculate_player_score(player_no: i32) -> i32 {
+//     // If 1 player: calculate sum of the vector
+//     // If 2 players [1, 3, 6, 7, 9, 5], player 2=> i%2 ==0, player1, i%2==1
+//     // If 3 players [1, 9, 3, 2, 4, 6, 4, 5, 6], player 1 =>
+// }
+
+fn calculate_word_score(word: String) -> i32 {
     let mut scrabble_score: HashMap<String, i32> = HashMap::new();
 
     scrabble_score.insert("a".to_string(), 1);
@@ -58,44 +96,16 @@ fn main () {
     scrabble_score.insert("Y".to_string(), 4);
     scrabble_score.insert("Z".to_string(), 10);
 
-    let mut scoreboard_1: i32 = 0;
-    let mut scoreboard_2: i32 = 0;
-
-    loop {
-        println! ("ENTER PLAYER 1 WORD");
-        let mut word_1 = String::new();
-        io::stdin().read_line(&mut word_1).expect("Failed to read the choice.");
-
-        let mut score_1 : i32;
-
-        for letter_1 in word_1.chars() {
-            let l_1 = letter_1.to_string();
-            let score_1 = match scrabble_score.get(&l_1) {
-                Some(score_1) => {
-                    println!("{:?} : {:?}", l_1, score_1);
-                    scoreboard_1 += score_1;
-                },
-                None => println!("{:?} is not mentioned.", l_1)
-            };
-        }
-        println! ("PLAYER SCORE 1 = {}", scoreboard_1);
-
-        println! ("ENTER PLAYER 2 WORD");
-        let mut word_2= String::new();
-        io::stdin().read_line(&mut word_2).expect("Failed to read the choice.");
-
-        let mut score_2 : i32;
-
-        for letter_2 in word_2.chars() {
-            let l_2 = letter_2.to_string();
-            let score_2 = match scrabble_score.get(&l_2) {
-                Some(score_2) => {
-                    println!("{:?} : {:?}", l_2, score_2);
-                    scoreboard_2 += score_2;
-                },
-                None => println!("{:?} is not mentioned.", l_2)
-            };
-        }
-        println! ("PLAYER SCORE 2 = {}", scoreboard_2);
+    let mut scoreboard: i32 = 0;
+    for l in word.chars() {
+        let letter = l.to_string();
+        let score = match scrabble_score.get(&letter) {
+            Some(score) => {
+                //println!("{:?} : {:?}", letter, score);
+                scoreboard += score;
+            }
+            None => continue,
+        };
     }
+    scoreboard
 }
