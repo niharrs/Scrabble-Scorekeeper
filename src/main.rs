@@ -146,7 +146,7 @@ fn calculate_word_score(word: String) -> i32 {
         Err(_) => 0,
     };
 
-    println!("PLEASE TELL POSITION OF TRIPLE LETTER. IF NOT, IF NOT, ENTER 99.");
+    println!("PLEASE TELL POSITION OF TRIPLE LETTER. IF NOT, ENTER 99.");
     let mut triple_bonus = String::new();
     io::stdin()
         .read_line(&mut triple_bonus)
