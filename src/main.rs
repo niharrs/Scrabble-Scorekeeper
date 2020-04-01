@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::io;
+use std::convert::TryInto;
 
 fn main() {
     println!("ENTER NUMBER OF PLAYERS");
@@ -124,16 +125,55 @@ fn calculate_word_score(word: String) -> i32 {
     scrabble_score.insert("Y".to_string(), 4);
     scrabble_score.insert("Z".to_string(), 10);
 
+    println!("PRESS 1 FOR DOUBLE WORD. PRESS 2 FOR TRIPLE WORD. PRESS RETURN FOR NONE.");
+    let mut multiply_word = String::new();
+    io::stdin()
+        .read_line(&mut multiply_word)
+        .expect("Failed to read the choice.");
+
+    let multiply_word_choice: i32 = match multiply_word.trim().parse() {
+        Ok(num) => num,
+        Err(_) => 0,
+    };
+
+    // println!("PLEASE TELL POSITION OF DOUBLE LETTER. IF NOT, PRESS RETURN.");
+    // let mut double_bonus = String::new();
+    // io::stdin()
+    //     .read_line(&mut double_bonus)
+    //     .expect("Failed to read the choice.");
+
+    // let double_bonus_letter: usize = match double_bonus.trim().parse() {
+    //     Ok(num) => num,
+    //     Err(_) => 0,
+    // };
+
+    // println!("PLEASE TELL POSITION OF TRIPLE LETTER. IF NOT, PRESS RETURN.");
+    // let mut triple_bonus = String::new();
+    // io::stdin()
+    //     .read_line(&mut triple_bonus)
+    //     .expect("Failed to read the choice.");
+
+    // let triple_bonus_letter: usize = match triple_bonus.trim().parse() {
+    //     Ok(num) => num,
+    //     Err(_) => 0,
+    // };
+
     let mut scoreboard: i32 = 0;
-    for l in word.chars() {
+    for (i,l) in word.chars().enumerate() {
         let letter = l.to_string();
+        let mut bonus : i32 = 0;
         let score = match scrabble_score.get(&letter) {
-            Some(score) => {
-                //println!("{:?} : {:?}", letter, score);
+            Some(mut score) => {
                 scoreboard += score;
             }
             None => continue,
         };
     }
+    if multiply_word_choice == 1 {
+        scoreboard = scoreboard*2;
+    } else if multiply_word_choice == 2 {
+        scoreboard = scoreboard*3;
+    }
     scoreboard
 }
+
