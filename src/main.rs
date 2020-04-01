@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::io;
-use std::convert::TryInto;
 
 fn main() {
     println!("ENTER NUMBER OF PLAYERS");
@@ -136,35 +135,47 @@ fn calculate_word_score(word: String) -> i32 {
         Err(_) => 0,
     };
 
-    // println!("PLEASE TELL POSITION OF DOUBLE LETTER. IF NOT, PRESS RETURN.");
-    // let mut double_bonus = String::new();
-    // io::stdin()
-    //     .read_line(&mut double_bonus)
-    //     .expect("Failed to read the choice.");
+    println!("PLEASE TELL POSITION OF DOUBLE LETTER. IF NOT, ENTER 99.");
+    let mut double_bonus = String::new();
+    io::stdin()
+        .read_line(&mut double_bonus)
+        .expect("Failed to read the choice.");
 
-    // let double_bonus_letter: usize = match double_bonus.trim().parse() {
-    //     Ok(num) => num,
-    //     Err(_) => 0,
-    // };
+    let double_bonus_letter: usize = match double_bonus.trim().parse() {
+        Ok(num) => num,
+        Err(_) => 0,
+    };
 
-    // println!("PLEASE TELL POSITION OF TRIPLE LETTER. IF NOT, PRESS RETURN.");
-    // let mut triple_bonus = String::new();
-    // io::stdin()
-    //     .read_line(&mut triple_bonus)
-    //     .expect("Failed to read the choice.");
+    println!("PLEASE TELL POSITION OF TRIPLE LETTER. IF NOT, IF NOT, ENTER 99.");
+    let mut triple_bonus = String::new();
+    io::stdin()
+        .read_line(&mut triple_bonus)
+        .expect("Failed to read the choice.");
 
-    // let triple_bonus_letter: usize = match triple_bonus.trim().parse() {
-    //     Ok(num) => num,
-    //     Err(_) => 0,
-    // };
+    let triple_bonus_letter: usize = match triple_bonus.trim().parse() {
+        Ok(num) => num,
+        Err(_) => 0,
+    };
 
     let mut scoreboard: i32 = 0;
     for (i,l) in word.chars().enumerate() {
         let letter = l.to_string();
-        let mut bonus : i32 = 0;
         let score = match scrabble_score.get(&letter) {
-            Some(mut score) => {
-                scoreboard += score;
+            Some(score) => {
+                if i == double_bonus_letter {
+                    println! ("double letter {}", double_bonus_letter);
+                    let new_score = score*2;
+                    scoreboard += new_score;
+                    continue;
+                }  
+                if i == triple_bonus_letter {
+                    println! ("triple letter {}", triple_bonus_letter);
+                    let new_score = score*3;
+                    scoreboard += new_score;
+                    continue;
+                } else {
+                    scoreboard += score;
+                }
             }
             None => continue,
         };
